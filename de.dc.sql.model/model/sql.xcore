@@ -1,0 +1,29 @@
+@Ecore(nsURI="http://www.frateranatis.org/sql/query")
+@GenModel(multipleEditorPages="false", 
+	creationIcons="false", 
+	editDirectory="/de.dc.sql.model.edit/src-gen",
+	editorDirectory="/de.dc.sql.model.editor/src-gen", 
+	richClientPlatform="true", 
+	codeFormatting="true",
+	importerID="org.eclipse.emf.importer.ecore", 
+	runtimePlatform="RCP", 
+	fileExtensions="sqlquery", 
+	tableProviders="true", dataTypeConverters="true", modelName="SqlQuery", prefix="SqlQuery")
+package de.dc.sql.model
+
+import org.eclipse.xtext.common.types.JvmTypeReference
+
+class Application{
+	contains Query[0..*] queries
+}
+
+class Query{
+	String name
+	String statement
+	contains Parameter[0..*] parameters
+}
+
+class Parameter{
+	String name
+	contains JvmTypeReference ^type
+}

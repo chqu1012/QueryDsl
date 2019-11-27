@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension
+         point="org.eclipse.core.runtime.applications"
+         id="SqlQueryEditorAdvisorApplication">
+      <!-- @generated sql -->
+      <application>
+         <run class="de.dc.sql.model.presentation.SqlQueryEditorAdvisor$Application"/>
+      </application>
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectives">
+      <!-- @generated sql -->
+      <perspective
+            name="%_UI_Perspective_label"
+            class="de.dc.sql.model.presentation.SqlQueryEditorAdvisor$Perspective"
+            id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorPerspective">
+      </perspective>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <!-- @generated sql -->
+      <command
+            name="%_UI_Menu_OpenURI_label"
+            description="%_UI_Menu_OpenURI_description"
+            categoryId="org.eclipse.ui.category.file"
+            id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenURICommand"/>
+      <command
+            name="%_UI_Menu_Open_label"
+            description="%_UI_Menu_Open_description"
+            categoryId="org.eclipse.ui.category.file"
+            id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenCommand"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+      <!-- @generated sql -->
+      <key
+            commandId="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenURICommand"
+            sequence="M1+U"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+      <key
+            commandId="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenCommand"
+            sequence="M1+O"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <!-- @generated sql -->
+      <actionSet
+            label="%_UI_SqlQueryEditorAdvisor_ActionSet_label"
+            visible="true"
+            id="SqlQueryEditorAdvisorActionSet">
+         <action
+               label="%_UI_Menu_About_label"
+               class="de.dc.sql.model.presentation.SqlQueryEditorAdvisor$AboutAction"
+               menubarPath="help/additions"
+               id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorAboutAction"/>
+         <action
+               label="%_UI_Menu_OpenURI_label"
+               definitionId="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenURICommand"
+               class="de.dc.sql.model.presentation.SqlQueryEditorAdvisor$OpenURIAction"
+               menubarPath="file/additions"
+               id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenURIAction"/>
+         <action
+               label="%_UI_Menu_Open_label"
+               definitionId="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenCommand"
+               class="de.dc.sql.model.presentation.SqlQueryEditorAdvisor$OpenAction"
+               menubarPath="file/additions"
+               id="de.dc.sql.model.presentation.SqlQueryEditorAdvisorOpenAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <!-- @generated sql -->
+      <actionSet
+            label="%_UI_SqlQueryModelWizard_ActionSet_label"
+            visible="true"
+            id="de.dc.sql.model.presentation.SqlQueryActionBarContributorActionSet">
+         <action
+               label="%_UI_SqlQueryModelWizard_label"
+               class="de.dc.sql.model.presentation.SqlQueryActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="de.dc.sql.model.presentation.SqlQueryActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated sql -->
+      <editor
+            id="de.dc.sql.model.presentation.SqlQueryEditorID"
+            name="%_UI_SqlQueryEditor_label"
+            icon="icons/full/obj16/SqlQueryModelFile.gif"
+            extensions="sqlquery"
+            class="de.dc.sql.model.presentation.SqlQueryEditor"
+            contributorClass="de.dc.sql.model.presentation.SqlQueryActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
