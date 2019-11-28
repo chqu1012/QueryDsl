@@ -5,9 +5,8 @@ package de.dc.sql.lang.formatting2;
 
 import com.google.inject.Inject;
 import de.dc.sql.lang.services.SqlQueryDslGrammarAccess;
-import de.dc.sql.model.Application;
-import de.dc.sql.model.Parameter;
-import de.dc.sql.model.Query;
+import de.dc.sql.lang.sqlQueryDsl.Model;
+import de.dc.sql.lang.sqlQueryDsl.Query;
 import java.util.Arrays;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -55,7 +54,7 @@ public class SqlQueryDslFormatter extends XbaseFormatter {
   @Extension
   private SqlQueryDslGrammarAccess _sqlQueryDslGrammarAccess;
   
-  protected void _format(final Application application, @Extension final IFormattableDocument document) {
+  protected void _format(final Model application, @Extension final IFormattableDocument document) {
     EList<Query> _queries = application.getQueries();
     for (final Query query : _queries) {
       document.<Query>format(query);
@@ -63,9 +62,9 @@ public class SqlQueryDslFormatter extends XbaseFormatter {
   }
   
   protected void _format(final Query query, @Extension final IFormattableDocument document) {
-    EList<Parameter> _parameters = query.getParameters();
-    for (final Parameter parameter : _parameters) {
-      document.<Parameter>format(parameter);
+    EList<JvmFormalParameter> _parameters = query.getParameters();
+    for (final JvmFormalParameter parameter : _parameters) {
+      document.<JvmFormalParameter>format(parameter);
     }
   }
   
@@ -160,8 +159,8 @@ public class SqlQueryDslFormatter extends XbaseFormatter {
     } else if (application instanceof XVariableDeclaration) {
       _format((XVariableDeclaration)application, document);
       return;
-    } else if (application instanceof Application) {
-      _format((Application)application, document);
+    } else if (application instanceof Model) {
+      _format((Model)application, document);
       return;
     } else if (application instanceof Query) {
       _format((Query)application, document);

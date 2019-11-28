@@ -6,6 +6,8 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.xtext.xbase.XBlockExpression;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Query</b></em>'.
@@ -48,26 +50,26 @@ public interface Query extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Statement</b></em>' attribute.
+	 * Returns the value of the '<em><b>Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Statement</em>' attribute.
-	 * @see #setStatement(String)
+	 * @return the value of the '<em>Statement</em>' containment reference.
+	 * @see #setStatement(XBlockExpression)
 	 * @see de.dc.sql.model.SqlQueryPackage#getQuery_Statement()
-	 * @model unique="false"
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getStatement();
+	XBlockExpression getStatement();
 
 	/**
-	 * Sets the value of the '{@link de.dc.sql.model.Query#getStatement <em>Statement</em>}' attribute.
+	 * Sets the value of the '{@link de.dc.sql.model.Query#getStatement <em>Statement</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Statement</em>' attribute.
+	 * @param value the new value of the '<em>Statement</em>' containment reference.
 	 * @see #getStatement()
 	 * @generated
 	 */
-	void setStatement(String value);
+	void setStatement(XBlockExpression value);
 
 	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.

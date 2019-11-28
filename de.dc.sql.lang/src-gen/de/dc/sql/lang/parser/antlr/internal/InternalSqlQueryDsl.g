@@ -43,7 +43,7 @@ import de.dc.sql.lang.services.SqlQueryDslGrammarAccess;
 
     @Override
     protected String getFirstRuleName() {
-    	return "Application";
+    	return "Model";
    	}
 
    	@Override
@@ -60,15 +60,15 @@ import de.dc.sql.lang.services.SqlQueryDslGrammarAccess;
     }
 }
 
-// Entry rule entryRuleApplication
-entryRuleApplication returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getApplicationRule()); }
-	iv_ruleApplication=ruleApplication
-	{ $current=$iv_ruleApplication.current; }
+// Entry rule entryRuleModel
+entryRuleModel returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getModelRule()); }
+	iv_ruleModel=ruleModel
+	{ $current=$iv_ruleModel.current; }
 	EOF;
 
-// Rule Application
-ruleApplication returns [EObject current=null]
+// Rule Model
+ruleModel returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -79,25 +79,74 @@ ruleApplication returns [EObject current=null]
 		(
 			{
 				$current = forceCreateModelElement(
-					grammarAccess.getApplicationAccess().getApplicationAction_0(),
+					grammarAccess.getModelAccess().getModelAction_0(),
 					$current);
 			}
 		)
+		otherlv_1='package'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getModelAccess().getPackageKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getModelAccess().getPackageQualifiedNameParserRuleCall_2_0());
+				}
+				lv_package_2_0=ruleQualifiedName
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getModelRule());
+					}
+					set(
+						$current,
+						"package",
+						lv_package_2_0,
+						"org.eclipse.xtext.xbase.Xbase.QualifiedName");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3='class'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getModelAccess().getClassKeyword_3());
+		}
+		(
+			(
+				lv_name_4_0=RULE_ID
+				{
+					newLeafNode(lv_name_4_0, grammarAccess.getModelAccess().getNameIDTerminalRuleCall_4_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getModelRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_4_0,
+						"org.eclipse.xtext.xbase.Xtype.ID");
+				}
+			)
+		)
+		otherlv_5='{'
+		{
+			newLeafNode(otherlv_5, grammarAccess.getModelAccess().getLeftCurlyBracketKeyword_5());
+		}
 		(
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getApplicationAccess().getQueriesQueryParserRuleCall_1_0_0());
+						newCompositeNode(grammarAccess.getModelAccess().getQueriesQueryParserRuleCall_6_0_0());
 					}
-					lv_queries_1_0=ruleQuery
+					lv_queries_6_0=ruleQuery
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getApplicationRule());
+							$current = createModelElementForParent(grammarAccess.getModelRule());
 						}
 						add(
 							$current,
 							"queries",
-							lv_queries_1_0,
+							lv_queries_6_0,
 							"de.dc.sql.lang.SqlQueryDsl.Query");
 						afterParserOrEnumRuleCall();
 					}
@@ -106,23 +155,27 @@ ruleApplication returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getApplicationAccess().getQueriesQueryParserRuleCall_1_1_0());
+						newCompositeNode(grammarAccess.getModelAccess().getQueriesQueryParserRuleCall_6_1_0());
 					}
-					lv_queries_2_0=ruleQuery
+					lv_queries_7_0=ruleQuery
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getApplicationRule());
+							$current = createModelElementForParent(grammarAccess.getModelRule());
 						}
 						add(
 							$current,
 							"queries",
-							lv_queries_2_0,
+							lv_queries_7_0,
 							"de.dc.sql.lang.SqlQueryDsl.Query");
 						afterParserOrEnumRuleCall();
 					}
 				)
 			)*
 		)?
+		otherlv_8='}'
+		{
+			newLeafNode(otherlv_8, grammarAccess.getModelAccess().getRightCurlyBracketKeyword_7());
+		}
 	)
 ;
 
@@ -180,9 +233,9 @@ ruleQuery returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getQueryAccess().getParametersParameterParserRuleCall_4_0_0());
+						newCompositeNode(grammarAccess.getQueryAccess().getParametersJvmFormalParameterParserRuleCall_4_0_0());
 					}
-					lv_parameters_4_0=ruleParameter
+					lv_parameters_4_0=ruleJvmFormalParameter
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getQueryRule());
@@ -191,7 +244,7 @@ ruleQuery returns [EObject current=null]
 							$current,
 							"parameters",
 							lv_parameters_4_0,
-							"de.dc.sql.lang.SqlQueryDsl.Parameter");
+							"org.eclipse.xtext.xbase.Xbase.JvmFormalParameter");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -204,9 +257,9 @@ ruleQuery returns [EObject current=null]
 				(
 					(
 						{
-							newCompositeNode(grammarAccess.getQueryAccess().getParametersParameterParserRuleCall_4_1_1_0());
+							newCompositeNode(grammarAccess.getQueryAccess().getParametersJvmFormalParameterParserRuleCall_4_1_1_0());
 						}
-						lv_parameters_6_0=ruleParameter
+						lv_parameters_6_0=ruleJvmFormalParameter
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getQueryRule());
@@ -215,7 +268,7 @@ ruleQuery returns [EObject current=null]
 								$current,
 								"parameters",
 								lv_parameters_6_0,
-								"de.dc.sql.lang.SqlQueryDsl.Parameter");
+								"org.eclipse.xtext.xbase.Xbase.JvmFormalParameter");
 							afterParserOrEnumRuleCall();
 						}
 					)
@@ -228,20 +281,71 @@ ruleQuery returns [EObject current=null]
 		}
 		(
 			(
-				lv_statement_8_0=RULE_MLTEXT
-				{
-					newLeafNode(lv_statement_8_0, grammarAccess.getQueryAccess().getStatementMLTEXTTerminalRuleCall_6_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getQueryRule());
+				(
+					lv_statement_8_0=RULE_STATEMENT
+					{
+						newLeafNode(lv_statement_8_0, grammarAccess.getQueryAccess().getStatementSTATEMENTTerminalRuleCall_6_0_0());
 					}
-					setWithLastConsumed(
-						$current,
-						"statement",
-						lv_statement_8_0,
-						"de.dc.sql.lang.SqlQueryDsl.MLTEXT");
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getQueryRule());
+						}
+						setWithLastConsumed(
+							$current,
+							"statement",
+							lv_statement_8_0,
+							"de.dc.sql.lang.SqlQueryDsl.STATEMENT");
+					}
+				)
+			)
+			    |
+			(
+				otherlv_9='statementFromFile:'
+				{
+					newLeafNode(otherlv_9, grammarAccess.getQueryAccess().getStatementFromFileKeyword_6_1_0());
 				}
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getQueryAccess().getStatementFromFileEBooleanParserRuleCall_6_1_1_0());
+						}
+						lv_statementFromFile_10_0=ruleEBoolean
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getQueryRule());
+							}
+							set(
+								$current,
+								"statementFromFile",
+								lv_statementFromFile_10_0,
+								"de.dc.sql.lang.SqlQueryDsl.EBoolean");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				otherlv_11='filePath:'
+				{
+					newLeafNode(otherlv_11, grammarAccess.getQueryAccess().getFilePathKeyword_6_1_2());
+				}
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getQueryAccess().getFilePathEStringParserRuleCall_6_1_3_0());
+						}
+						lv_filePath_12_0=ruleEString
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getQueryRule());
+							}
+							set(
+								$current,
+								"filePath",
+								lv_filePath_12_0,
+								"de.dc.sql.lang.SqlQueryDsl.EString");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
 			)
 		)
 	)
@@ -281,15 +385,15 @@ ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
 	)
 ;
 
-// Entry rule entryRuleParameter
-entryRuleParameter returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getParameterRule()); }
-	iv_ruleParameter=ruleParameter
-	{ $current=$iv_ruleParameter.current; }
+// Entry rule entryRuleEBoolean
+entryRuleEBoolean returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getEBooleanRule()); }
+	iv_ruleEBoolean=ruleEBoolean
+	{ $current=$iv_ruleEBoolean.current.getText(); }
 	EOF;
 
-// Rule Parameter
-ruleParameter returns [EObject current=null]
+// Rule EBoolean
+ruleEBoolean returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 @init {
 	enterRule();
 }
@@ -297,51 +401,17 @@ ruleParameter returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		(
-			{
-				$current = forceCreateModelElement(
-					grammarAccess.getParameterAccess().getParameterAction_0(),
-					$current);
-			}
-		)
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getParameterAccess().getTypeJvmTypeReferenceParserRuleCall_1_0());
-				}
-				lv_type_1_0=ruleJvmTypeReference
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getParameterRule());
-					}
-					set(
-						$current,
-						"type",
-						lv_type_1_0,
-						"org.eclipse.xtext.xbase.Xtype.JvmTypeReference");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getParameterAccess().getNameEStringParserRuleCall_2_0());
-				}
-				lv_name_2_0=ruleEString
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getParameterRule());
-					}
-					set(
-						$current,
-						"name",
-						lv_name_2_0,
-						"de.dc.sql.lang.SqlQueryDsl.EString");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
+		kw='true'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getEBooleanAccess().getTrueKeyword_0());
+		}
+		    |
+		kw='false'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getEBooleanAccess().getFalseKeyword_1());
+		}
 	)
 ;
 
@@ -6627,7 +6697,7 @@ ruleQualifiedNameInStaticImport returns [AntlrDatatypeRuleToken current=new Antl
 	)+
 ;
 
-RULE_MLTEXT : '[' ( options {greedy=false;} : . )*']';
+RULE_STATEMENT : '```' ( options {greedy=false;} : . )*'```';
 
 RULE_HEX : ('0x'|'0X') ('0'..'9'|'a'..'f'|'A'..'F'|'_')+ ('#' (('b'|'B') ('i'|'I')|('l'|'L')))?;
 

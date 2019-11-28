@@ -5,6 +5,8 @@ package de.dc.sql.lang;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.dc.sql.lang.sqlQueryDsl.SqlQueryDslPackage;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ISetup;
 import org.eclipse.xtext.resource.IResourceFactory;
@@ -28,6 +30,9 @@ public class SqlQueryDslStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public void register(Injector injector) {
+		if (!EPackage.Registry.INSTANCE.containsKey("http://www.dc.de/sql/lang/SqlQueryDsl")) {
+			EPackage.Registry.INSTANCE.put("http://www.dc.de/sql/lang/SqlQueryDsl", SqlQueryDslPackage.eINSTANCE);
+		}
 		IResourceFactory resourceFactory = injector.getInstance(IResourceFactory.class);
 		IResourceServiceProvider serviceProvider = injector.getInstance(IResourceServiceProvider.class);
 		

@@ -12,6 +12,7 @@
 package de.dc.sql.model
 
 import org.eclipse.xtext.common.types.JvmTypeReference
+import org.eclipse.xtext.xbase.XBlockExpression
 
 class Application{
 	contains Query[0..*] queries
@@ -19,7 +20,7 @@ class Application{
 
 class Query{
 	String name
-	String statement
+	contains XBlockExpression statement
 	contains Parameter[0..*] parameters
 }
 

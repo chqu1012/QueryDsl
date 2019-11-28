@@ -5,9 +5,9 @@ package de.dc.sql.lang.serializer;
 
 import com.google.inject.Inject;
 import de.dc.sql.lang.services.SqlQueryDslGrammarAccess;
-import de.dc.sql.model.Application;
-import de.dc.sql.model.Query;
-import de.dc.sql.model.SqlQueryPackage;
+import de.dc.sql.lang.sqlQueryDsl.Model;
+import de.dc.sql.lang.sqlQueryDsl.Query;
+import de.dc.sql.lang.sqlQueryDsl.SqlQueryDslPackage;
 import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -24,8 +24,6 @@ import org.eclipse.xtext.common.types.JvmUpperBound;
 import org.eclipse.xtext.common.types.JvmWildcardTypeReference;
 import org.eclipse.xtext.common.types.TypesPackage;
 import org.eclipse.xtext.serializer.ISerializationContext;
-import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 import org.eclipse.xtext.xbase.XAssignment;
 import org.eclipse.xtext.xbase.XBasicForLoopExpression;
 import org.eclipse.xtext.xbase.XBinaryOperation;
@@ -76,15 +74,12 @@ public class SqlQueryDslSemanticSequencer extends XbaseSemanticSequencer {
 		ParserRule rule = context.getParserRule();
 		Action action = context.getAssignedAction();
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
-		if (epackage == SqlQueryPackage.eINSTANCE)
+		if (epackage == SqlQueryDslPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case SqlQueryPackage.APPLICATION:
-				sequence_Application(context, (Application) semanticObject); 
+			case SqlQueryDslPackage.MODEL:
+				sequence_Model(context, (Model) semanticObject); 
 				return; 
-			case SqlQueryPackage.PARAMETER:
-				sequence_Parameter(context, (de.dc.sql.model.Parameter) semanticObject); 
-				return; 
-			case SqlQueryPackage.QUERY:
+			case SqlQueryDslPackage.QUERY:
 				sequence_Query(context, (Query) semanticObject); 
 				return; 
 			}
@@ -333,34 +328,13 @@ public class SqlQueryDslSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Application returns Application
+	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (queries+=Query queries+=Query*)?
+	 *     (package=QualifiedName name=ID (queries+=Query queries+=Query*)?)
 	 */
-	protected void sequence_Application(ISerializationContext context, Application semanticObject) {
+	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Parameter returns Parameter
-	 *
-	 * Constraint:
-	 *     (type=JvmTypeReference name=EString)
-	 */
-	protected void sequence_Parameter(ISerializationContext context, de.dc.sql.model.Parameter semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, SqlQueryPackage.Literals.PARAMETER__TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SqlQueryPackage.Literals.PARAMETER__TYPE));
-			if (transientValues.isValueTransient(semanticObject, SqlQueryPackage.Literals.PARAMETER__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, SqlQueryPackage.Literals.PARAMETER__NAME));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getParameterAccess().getTypeJvmTypeReferenceParserRuleCall_1_0(), semanticObject.getType());
-		feeder.accept(grammarAccess.getParameterAccess().getNameEStringParserRuleCall_2_0(), semanticObject.getName());
-		feeder.finish();
 	}
 	
 	
@@ -369,7 +343,11 @@ public class SqlQueryDslSemanticSequencer extends XbaseSemanticSequencer {
 	 *     Query returns Query
 	 *
 	 * Constraint:
-	 *     (name=EString (parameters+=Parameter parameters+=Parameter*)? statement=MLTEXT)
+	 *     (
+	 *         name=EString 
+	 *         (parameters+=JvmFormalParameter parameters+=JvmFormalParameter*)? 
+	 *         (statement=STATEMENT | (statementFromFile=EBoolean filePath=EString))
+	 *     )
 	 */
 	protected void sequence_Query(ISerializationContext context, Query semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

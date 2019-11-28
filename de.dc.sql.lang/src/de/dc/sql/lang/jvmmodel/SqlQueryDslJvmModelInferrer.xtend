@@ -4,74 +4,59 @@
 package de.dc.sql.lang.jvmmodel
 
 import com.google.inject.Inject
-import de.dc.sql.model.Application
-import de.dc.sql.model.Query
-import org.eclipse.xtext.common.types.JvmDeclaredType
+import de.dc.sql.lang.sqlQueryDsl.Model
+import java.util.Scanner
+import org.eclipse.xtext.common.types.JvmVisibility
+import org.eclipse.xtext.common.types.TypesFactory
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 
-/**
- * <p>Infers a JVM model from the source model.</p> 
- *
- * <p>The JVM model should contain all elements that would appear in the Java code 
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>     
- */
 class SqlQueryDslJvmModelInferrer extends AbstractModelInferrer {
 
-	/**
-	 * convenience API to build and initialize JVM types and their members.
-	 */
+	@Inject TypesFactory typesFactory
+
 	@Inject extension JvmTypesBuilder
 
-	/**
-	 * The dispatch method {@code infer} is called for each instance of the
-	 * given element's type that is contained in a resource.
-	 * 
-	 * @param element
-	 *            the model to create one or more
-	 *            {@link JvmDeclaredType declared
-	 *            types} from.
-	 * @param acceptor
-	 *            each created
-	 *            {@link JvmDeclaredType type}
-	 *            without a container should be passed to the acceptor in order
-	 *            get attached to the current resource. The acceptor's
-	 *            {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-	 *            accept(..)} method takes the constructed empty type for the
-	 *            pre-indexing phase. This one is further initialized in the
-	 *            indexing phase using the lambda you pass as the last argument.
-	 * @param isPreIndexingPhase
-	 *            whether the method is called in a pre-indexing phase, i.e.
-	 *            when the global index is not yet fully updated. You must not
-	 *            rely on linking using the index if isPreIndexingPhase is
-	 *            <code>true</code>.
-	 */
-	def dispatch void infer(Application element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-		
-		// An implementation for the initial hello world example could look like this:
- 		acceptor.accept(element.toClass("QueryManager")) [
- 			for (query : element.queries) {
-				members += element.toMethod(query.name, typeRef(String)) [
-					static = true
-					query.parameters.forEach[e|
-						parameters += element.toParameter(e.name, e.type)
-					]
- 					body = '''return String.join("\n", new String[] {
- 						«query.content»
- 						});'''  						
+	def dispatch void infer(Model element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+		acceptor.accept(element.toClass(element.package + '.' + element.name)) [
+			for (query : element.queries) {
+				val jvmOperation = typesFactory.createJvmOperation
+				jvmOperation.simpleName = query.name
+				jvmOperation.returnType = String.typeRef
+				jvmOperation.static = true
+				jvmOperation.visibility = JvmVisibility.PUBLIC
+				query.parameters.toList.forEach [ e |
+					jvmOperation.parameters += e.toParameter(e.name, e.parameterType)
 				]
- 			}
+				jvmOperation.body = '''
+					«query.statement.content»
+					String content = sb.toString();
+					«FOR p : query.parameters»
+					content = content.replaceAll("<«p.name»>", String.valueOf(«p.name»));
+					«ENDFOR»
+					return content;
+				'''
+				members += jvmOperation
+			}
 		]
 	}
-	
-	def String getContent(Query query){
-		var statement = query.statement
-		for (p : query.parameters) {
-			statement = statement.replace('''%«p.name»%''', 'test')
+
+	def String content(String source) {
+		val Scanner scanner = new Scanner(source);
+		var String line = null;
+		val StringBuilder stringBuilder = new StringBuilder();
+		val String ls = System.getProperty("line.separator");
+
+		stringBuilder.append("StringBuilder sb = new StringBuilder();" + ls);
+		while (scanner.hasNextLine()) {
+			line = scanner.nextLine.trim
+			stringBuilder.append("sb.append(\"" + line+" "+ "\");" + ls);
 		}
-		statement.substring(1, statement.length-1).split('\n\r').map['"'+it+'"'].reduce[p1, p2|p1+','+p2]
+		scanner.close
+
+		var String content = stringBuilder.toString();
+		content = content.replaceAll("```", "");
+		content;
 	}
-	
 }

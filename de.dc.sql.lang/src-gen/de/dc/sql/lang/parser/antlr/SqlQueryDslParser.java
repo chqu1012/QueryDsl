@@ -27,7 +27,7 @@ public class SqlQueryDslParser extends AbstractAntlrParser {
 
 	@Override 
 	protected String getDefaultRuleName() {
-		return "Application";
+		return "Model";
 	}
 
 	public SqlQueryDslGrammarAccess getGrammarAccess() {

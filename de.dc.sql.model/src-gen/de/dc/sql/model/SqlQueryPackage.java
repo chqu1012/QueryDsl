@@ -113,7 +113,7 @@ public interface SqlQueryPackage extends EPackage {
 	int QUERY__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Statement</b></em>' attribute.
+	 * The feature id for the '<em><b>Statement</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -237,15 +237,15 @@ public interface SqlQueryPackage extends EPackage {
 	EAttribute getQuery_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.dc.sql.model.Query#getStatement <em>Statement</em>}'.
+	 * Returns the meta object for the containment reference '{@link de.dc.sql.model.Query#getStatement <em>Statement</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Statement</em>'.
+	 * @return the meta object for the containment reference '<em>Statement</em>'.
 	 * @see de.dc.sql.model.Query#getStatement()
 	 * @see #getQuery()
 	 * @generated
 	 */
-	EAttribute getQuery_Statement();
+	EReference getQuery_Statement();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link de.dc.sql.model.Query#getParameters <em>Parameters</em>}'.
@@ -350,12 +350,12 @@ public interface SqlQueryPackage extends EPackage {
 		EAttribute QUERY__NAME = eINSTANCE.getQuery_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Statement</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Statement</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute QUERY__STATEMENT = eINSTANCE.getQuery_Statement();
+		EReference QUERY__STATEMENT = eINSTANCE.getQuery_Statement();
 
 		/**
 		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.

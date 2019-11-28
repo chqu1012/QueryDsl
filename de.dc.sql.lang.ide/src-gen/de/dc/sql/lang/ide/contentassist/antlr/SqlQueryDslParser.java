@@ -31,7 +31,9 @@ public class SqlQueryDslParser extends AbstractContentAssistParser {
 		}
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, SqlQueryDslGrammarAccess grammarAccess) {
+			builder.put(grammarAccess.getQueryAccess().getAlternatives_6(), "rule__Query__Alternatives_6");
 			builder.put(grammarAccess.getEStringAccess().getAlternatives(), "rule__EString__Alternatives");
+			builder.put(grammarAccess.getEBooleanAccess().getAlternatives(), "rule__EBoolean__Alternatives");
 			builder.put(grammarAccess.getXAssignmentAccess().getAlternatives(), "rule__XAssignment__Alternatives");
 			builder.put(grammarAccess.getOpMultiAssignAccess().getAlternatives(), "rule__OpMultiAssign__Alternatives");
 			builder.put(grammarAccess.getOpEqualityAccess().getAlternatives(), "rule__OpEquality__Alternatives");
@@ -71,12 +73,12 @@ public class SqlQueryDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getJvmWildcardTypeReferenceAccess().getAlternatives_2(), "rule__JvmWildcardTypeReference__Alternatives_2");
 			builder.put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1(), "rule__XImportDeclaration__Alternatives_1");
 			builder.put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1_0_3(), "rule__XImportDeclaration__Alternatives_1_0_3");
-			builder.put(grammarAccess.getApplicationAccess().getGroup(), "rule__Application__Group__0");
-			builder.put(grammarAccess.getApplicationAccess().getGroup_1(), "rule__Application__Group_1__0");
+			builder.put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
+			builder.put(grammarAccess.getModelAccess().getGroup_6(), "rule__Model__Group_6__0");
 			builder.put(grammarAccess.getQueryAccess().getGroup(), "rule__Query__Group__0");
 			builder.put(grammarAccess.getQueryAccess().getGroup_4(), "rule__Query__Group_4__0");
 			builder.put(grammarAccess.getQueryAccess().getGroup_4_1(), "rule__Query__Group_4_1__0");
-			builder.put(grammarAccess.getParameterAccess().getGroup(), "rule__Parameter__Group__0");
+			builder.put(grammarAccess.getQueryAccess().getGroup_6_1(), "rule__Query__Group_6_1__0");
 			builder.put(grammarAccess.getXAssignmentAccess().getGroup_0(), "rule__XAssignment__Group_0__0");
 			builder.put(grammarAccess.getXAssignmentAccess().getGroup_1(), "rule__XAssignment__Group_1__0");
 			builder.put(grammarAccess.getXAssignmentAccess().getGroup_1_1(), "rule__XAssignment__Group_1_1__0");
@@ -256,14 +258,16 @@ public class SqlQueryDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
 			builder.put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 			builder.put(grammarAccess.getQualifiedNameInStaticImportAccess().getGroup(), "rule__QualifiedNameInStaticImport__Group__0");
-			builder.put(grammarAccess.getApplicationAccess().getQueriesAssignment_1_0(), "rule__Application__QueriesAssignment_1_0");
-			builder.put(grammarAccess.getApplicationAccess().getQueriesAssignment_1_1(), "rule__Application__QueriesAssignment_1_1");
+			builder.put(grammarAccess.getModelAccess().getPackageAssignment_2(), "rule__Model__PackageAssignment_2");
+			builder.put(grammarAccess.getModelAccess().getNameAssignment_4(), "rule__Model__NameAssignment_4");
+			builder.put(grammarAccess.getModelAccess().getQueriesAssignment_6_0(), "rule__Model__QueriesAssignment_6_0");
+			builder.put(grammarAccess.getModelAccess().getQueriesAssignment_6_1(), "rule__Model__QueriesAssignment_6_1");
 			builder.put(grammarAccess.getQueryAccess().getNameAssignment_2(), "rule__Query__NameAssignment_2");
 			builder.put(grammarAccess.getQueryAccess().getParametersAssignment_4_0(), "rule__Query__ParametersAssignment_4_0");
 			builder.put(grammarAccess.getQueryAccess().getParametersAssignment_4_1_1(), "rule__Query__ParametersAssignment_4_1_1");
-			builder.put(grammarAccess.getQueryAccess().getStatementAssignment_6(), "rule__Query__StatementAssignment_6");
-			builder.put(grammarAccess.getParameterAccess().getTypeAssignment_1(), "rule__Parameter__TypeAssignment_1");
-			builder.put(grammarAccess.getParameterAccess().getNameAssignment_2(), "rule__Parameter__NameAssignment_2");
+			builder.put(grammarAccess.getQueryAccess().getStatementAssignment_6_0(), "rule__Query__StatementAssignment_6_0");
+			builder.put(grammarAccess.getQueryAccess().getStatementFromFileAssignment_6_1_1(), "rule__Query__StatementFromFileAssignment_6_1_1");
+			builder.put(grammarAccess.getQueryAccess().getFilePathAssignment_6_1_3(), "rule__Query__FilePathAssignment_6_1_3");
 			builder.put(grammarAccess.getXAssignmentAccess().getFeatureAssignment_0_1(), "rule__XAssignment__FeatureAssignment_0_1");
 			builder.put(grammarAccess.getXAssignmentAccess().getValueAssignment_0_3(), "rule__XAssignment__ValueAssignment_0_3");
 			builder.put(grammarAccess.getXAssignmentAccess().getFeatureAssignment_1_1_0_0_1(), "rule__XAssignment__FeatureAssignment_1_1_0_0_1");

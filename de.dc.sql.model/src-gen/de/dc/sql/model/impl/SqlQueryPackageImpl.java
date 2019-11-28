@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.xtext.common.types.TypesPackage;
 
+import org.eclipse.xtext.xbase.XbasePackage;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
@@ -98,6 +100,7 @@ public class SqlQueryPackageImpl extends EPackageImpl implements SqlQueryPackage
 
 		// Initialize simple dependencies
 		EcorePackage.eINSTANCE.eClass();
+		XbasePackage.eINSTANCE.eClass();
 		TypesPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -160,8 +163,8 @@ public class SqlQueryPackageImpl extends EPackageImpl implements SqlQueryPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getQuery_Statement() {
-		return (EAttribute) queryEClass.getEStructuralFeatures().get(1);
+	public EReference getQuery_Statement() {
+		return (EReference) queryEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -239,7 +242,7 @@ public class SqlQueryPackageImpl extends EPackageImpl implements SqlQueryPackage
 
 		queryEClass = createEClass(QUERY);
 		createEAttribute(queryEClass, QUERY__NAME);
-		createEAttribute(queryEClass, QUERY__STATEMENT);
+		createEReference(queryEClass, QUERY__STATEMENT);
 		createEReference(queryEClass, QUERY__PARAMETERS);
 
 		parameterEClass = createEClass(PARAMETER);
@@ -273,6 +276,7 @@ public class SqlQueryPackageImpl extends EPackageImpl implements SqlQueryPackage
 
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		XbasePackage theXbasePackage = (XbasePackage) EPackage.Registry.INSTANCE.getEPackage(XbasePackage.eNS_URI);
 		TypesPackage theTypesPackage = (TypesPackage) EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
 
 		// Create type parameters
@@ -291,9 +295,9 @@ public class SqlQueryPackageImpl extends EPackageImpl implements SqlQueryPackage
 		initEClass(queryEClass, Query.class, "Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getQuery_Name(), theEcorePackage.getEString(), "name", null, 0, 1, Query.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getQuery_Statement(), theEcorePackage.getEString(), "statement", null, 0, 1, Query.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+		initEReference(getQuery_Statement(), theXbasePackage.getXBlockExpression(), null, "statement", null, 0, 1,
+				Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getQuery_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, Query.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

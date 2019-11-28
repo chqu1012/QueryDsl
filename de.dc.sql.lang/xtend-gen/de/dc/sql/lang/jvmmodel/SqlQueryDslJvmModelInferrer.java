@@ -4,134 +4,115 @@
 package de.dc.sql.lang.jvmmodel;
 
 import com.google.inject.Inject;
-import de.dc.sql.model.Application;
-import de.dc.sql.model.Parameter;
-import de.dc.sql.model.Query;
+import de.dc.sql.lang.sqlQueryDsl.Model;
+import de.dc.sql.lang.sqlQueryDsl.Query;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
-import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmVisibility;
+import org.eclipse.xtext.common.types.TypesFactory;
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
-import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.Functions.Function2;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
-/**
- * <p>Infers a JVM model from the source model.</p>
- * 
- * <p>The JVM model should contain all elements that would appear in the Java code
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
- */
 @SuppressWarnings("all")
 public class SqlQueryDslJvmModelInferrer extends AbstractModelInferrer {
-  /**
-   * convenience API to build and initialize JVM types and their members.
-   */
+  @Inject
+  private TypesFactory typesFactory;
+  
   @Inject
   @Extension
   private JvmTypesBuilder _jvmTypesBuilder;
   
-  /**
-   * The dispatch method {@code infer} is called for each instance of the
-   * given element's type that is contained in a resource.
-   * 
-   * @param element
-   *            the model to create one or more
-   *            {@link JvmDeclaredType declared
-   *            types} from.
-   * @param acceptor
-   *            each created
-   *            {@link JvmDeclaredType type}
-   *            without a container should be passed to the acceptor in order
-   *            get attached to the current resource. The acceptor's
-   *            {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-   *            accept(..)} method takes the constructed empty type for the
-   *            pre-indexing phase. This one is further initialized in the
-   *            indexing phase using the lambda you pass as the last argument.
-   * @param isPreIndexingPhase
-   *            whether the method is called in a pre-indexing phase, i.e.
-   *            when the global index is not yet fully updated. You must not
-   *            rely on linking using the index if isPreIndexingPhase is
-   *            <code>true</code>.
-   */
-  protected void _infer(final Application element, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
+  protected void _infer(final Model element, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
+    String _package = element.getPackage();
+    String _plus = (_package + ".");
+    String _name = element.getName();
+    String _plus_1 = (_plus + _name);
     final Procedure1<JvmGenericType> _function = (JvmGenericType it) -> {
       EList<Query> _queries = element.getQueries();
       for (final Query query : _queries) {
-        EList<JvmMember> _members = it.getMembers();
-        final Procedure1<JvmOperation> _function_1 = (JvmOperation it_1) -> {
-          it_1.setStatic(true);
-          final Consumer<Parameter> _function_2 = (Parameter e) -> {
-            EList<JvmFormalParameter> _parameters = it_1.getParameters();
-            JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(element, e.getName(), e.getType());
+        {
+          final JvmOperation jvmOperation = this.typesFactory.createJvmOperation();
+          jvmOperation.setSimpleName(query.getName());
+          jvmOperation.setReturnType(this._typeReferenceBuilder.typeRef(String.class));
+          jvmOperation.setStatic(true);
+          jvmOperation.setVisibility(JvmVisibility.PUBLIC);
+          final Consumer<JvmFormalParameter> _function_1 = (JvmFormalParameter e) -> {
+            EList<JvmFormalParameter> _parameters = jvmOperation.getParameters();
+            JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(e, e.getName(), e.getParameterType());
             this._jvmTypesBuilder.<JvmFormalParameter>operator_add(_parameters, _parameter);
           };
-          query.getParameters().forEach(_function_2);
+          IterableExtensions.<JvmFormalParameter>toList(query.getParameters()).forEach(_function_1);
           StringConcatenationClient _client = new StringConcatenationClient() {
             @Override
             protected void appendTo(StringConcatenationClient.TargetStringConcatenation _builder) {
-              _builder.append("return String.join(\"\\n\", new String[] {");
-              _builder.newLine();
-              _builder.append(" \t\t\t\t\t\t");
-              String _content = SqlQueryDslJvmModelInferrer.this.getContent(query);
-              _builder.append(_content, " \t\t\t\t\t\t");
+              String _content = SqlQueryDslJvmModelInferrer.this.content(query.getStatement());
+              _builder.append(_content);
               _builder.newLineIfNotEmpty();
-              _builder.append(" \t\t\t\t\t\t");
-              _builder.append("});");
+              _builder.append("String content = sb.toString();");
+              _builder.newLine();
+              {
+                EList<JvmFormalParameter> _parameters = query.getParameters();
+                for(final JvmFormalParameter p : _parameters) {
+                  _builder.append("content = content.replaceAll(\"<");
+                  String _name = p.getName();
+                  _builder.append(_name);
+                  _builder.append(">\", String.valueOf(");
+                  String _name_1 = p.getName();
+                  _builder.append(_name_1);
+                  _builder.append("));");
+                  _builder.newLineIfNotEmpty();
+                }
+              }
+              _builder.append("return content;");
+              _builder.newLine();
             }
           };
-          this._jvmTypesBuilder.setBody(it_1, _client);
-        };
-        JvmOperation _method = this._jvmTypesBuilder.toMethod(element, query.getName(), this._typeReferenceBuilder.typeRef(String.class), _function_1);
-        this._jvmTypesBuilder.<JvmOperation>operator_add(_members, _method);
+          this._jvmTypesBuilder.setBody(jvmOperation, _client);
+          EList<JvmMember> _members = it.getMembers();
+          this._jvmTypesBuilder.<JvmOperation>operator_add(_members, jvmOperation);
+        }
       }
     };
-    acceptor.<JvmGenericType>accept(this._jvmTypesBuilder.toClass(element, "QueryManager"), _function);
+    acceptor.<JvmGenericType>accept(this._jvmTypesBuilder.toClass(element, _plus_1), _function);
   }
   
-  public String getContent(final Query query) {
+  public String content(final String source) {
     String _xblockexpression = null;
     {
-      String statement = query.getStatement();
-      EList<Parameter> _parameters = query.getParameters();
-      for (final Parameter p : _parameters) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("%");
-        String _name = p.getName();
-        _builder.append(_name);
-        _builder.append("%");
-        statement = statement.replace(_builder, "test");
+      final Scanner scanner = new Scanner(source);
+      String line = null;
+      final StringBuilder stringBuilder = new StringBuilder();
+      final String ls = System.getProperty("line.separator");
+      stringBuilder.append(("StringBuilder sb = new StringBuilder();" + ls));
+      while (scanner.hasNextLine()) {
+        {
+          line = scanner.nextLine().trim();
+          stringBuilder.append((((("sb.append(\"" + line) + " ") + "\");") + ls));
+        }
       }
-      int _length = statement.length();
-      int _minus = (_length - 1);
-      final Function1<String, String> _function = (String it) -> {
-        return (("\"" + it) + "\"");
-      };
-      final Function2<String, String, String> _function_1 = (String p1, String p2) -> {
-        return ((p1 + ",") + p2);
-      };
-      _xblockexpression = IterableExtensions.<String>reduce(ListExtensions.<String, String>map(((List<String>)Conversions.doWrapArray(statement.substring(1, _minus).split("\n\r"))), _function), _function_1);
+      scanner.close();
+      String content = stringBuilder.toString();
+      content = content.replaceAll("```", "");
+      _xblockexpression = content;
     }
     return _xblockexpression;
   }
   
   public void infer(final EObject element, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
-    if (element instanceof Application) {
-      _infer((Application)element, acceptor, isPreIndexingPhase);
+    if (element instanceof Model) {
+      _infer((Model)element, acceptor, isPreIndexingPhase);
       return;
     } else if (element != null) {
       _infer(element, acceptor, isPreIndexingPhase);

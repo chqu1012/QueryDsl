@@ -24,40 +24,75 @@ import org.eclipse.xtext.xbase.services.XtypeGrammarAccess;
 @Singleton
 public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 	
-	public class ApplicationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.Application");
+	public class ModelElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.Model");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cApplicationAction_0 = (Action)cGroup.eContents().get(0);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Assignment cQueriesAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final RuleCall cQueriesQueryParserRuleCall_1_0_0 = (RuleCall)cQueriesAssignment_1_0.eContents().get(0);
-		private final Assignment cQueriesAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cQueriesQueryParserRuleCall_1_1_0 = (RuleCall)cQueriesAssignment_1_1.eContents().get(0);
+		private final Action cModelAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cPackageKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cPackageAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cPackageQualifiedNameParserRuleCall_2_0 = (RuleCall)cPackageAssignment_2.eContents().get(0);
+		private final Keyword cClassKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cNameAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cNameIDTerminalRuleCall_4_0 = (RuleCall)cNameAssignment_4.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Assignment cQueriesAssignment_6_0 = (Assignment)cGroup_6.eContents().get(0);
+		private final RuleCall cQueriesQueryParserRuleCall_6_0_0 = (RuleCall)cQueriesAssignment_6_0.eContents().get(0);
+		private final Assignment cQueriesAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
+		private final RuleCall cQueriesQueryParserRuleCall_6_1_0 = (RuleCall)cQueriesAssignment_6_1.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
-		//Application:
-		//	{Application} (queries+=Query queries+=Query*)?;
+		//Model:
+		//	{Model}
+		//	'package' package=QualifiedName
+		//	'class' name=ID '{' (queries+=Query queries+=Query*)?
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Application} (queries+=Query queries+=Query*)?
+		//{Model} 'package' package=QualifiedName 'class' name=ID '{' (queries+=Query queries+=Query*)? '}'
 		public Group getGroup() { return cGroup; }
 		
-		//{Application}
-		public Action getApplicationAction_0() { return cApplicationAction_0; }
+		//{Model}
+		public Action getModelAction_0() { return cModelAction_0; }
+		
+		//'package'
+		public Keyword getPackageKeyword_1() { return cPackageKeyword_1; }
+		
+		//package=QualifiedName
+		public Assignment getPackageAssignment_2() { return cPackageAssignment_2; }
+		
+		//QualifiedName
+		public RuleCall getPackageQualifiedNameParserRuleCall_2_0() { return cPackageQualifiedNameParserRuleCall_2_0; }
+		
+		//'class'
+		public Keyword getClassKeyword_3() { return cClassKeyword_3; }
+		
+		//name=ID
+		public Assignment getNameAssignment_4() { return cNameAssignment_4; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_4_0() { return cNameIDTerminalRuleCall_4_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//(queries+=Query queries+=Query*)?
-		public Group getGroup_1() { return cGroup_1; }
+		public Group getGroup_6() { return cGroup_6; }
 		
 		//queries+=Query
-		public Assignment getQueriesAssignment_1_0() { return cQueriesAssignment_1_0; }
+		public Assignment getQueriesAssignment_6_0() { return cQueriesAssignment_6_0; }
 		
 		//Query
-		public RuleCall getQueriesQueryParserRuleCall_1_0_0() { return cQueriesQueryParserRuleCall_1_0_0; }
+		public RuleCall getQueriesQueryParserRuleCall_6_0_0() { return cQueriesQueryParserRuleCall_6_0_0; }
 		
 		//queries+=Query*
-		public Assignment getQueriesAssignment_1_1() { return cQueriesAssignment_1_1; }
+		public Assignment getQueriesAssignment_6_1() { return cQueriesAssignment_6_1; }
 		
 		//Query
-		public RuleCall getQueriesQueryParserRuleCall_1_1_0() { return cQueriesQueryParserRuleCall_1_1_0; }
+		public RuleCall getQueriesQueryParserRuleCall_6_1_0() { return cQueriesQueryParserRuleCall_6_1_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
 	}
 	public class QueryElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.Query");
@@ -69,22 +104,31 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cLeftParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
 		private final Assignment cParametersAssignment_4_0 = (Assignment)cGroup_4.eContents().get(0);
-		private final RuleCall cParametersParameterParserRuleCall_4_0_0 = (RuleCall)cParametersAssignment_4_0.eContents().get(0);
+		private final RuleCall cParametersJvmFormalParameterParserRuleCall_4_0_0 = (RuleCall)cParametersAssignment_4_0.eContents().get(0);
 		private final Group cGroup_4_1 = (Group)cGroup_4.eContents().get(1);
 		private final Keyword cCommaKeyword_4_1_0 = (Keyword)cGroup_4_1.eContents().get(0);
 		private final Assignment cParametersAssignment_4_1_1 = (Assignment)cGroup_4_1.eContents().get(1);
-		private final RuleCall cParametersParameterParserRuleCall_4_1_1_0 = (RuleCall)cParametersAssignment_4_1_1.eContents().get(0);
+		private final RuleCall cParametersJvmFormalParameterParserRuleCall_4_1_1_0 = (RuleCall)cParametersAssignment_4_1_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Assignment cStatementAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cStatementMLTEXTTerminalRuleCall_6_0 = (RuleCall)cStatementAssignment_6.eContents().get(0);
+		private final Alternatives cAlternatives_6 = (Alternatives)cGroup.eContents().get(6);
+		private final Assignment cStatementAssignment_6_0 = (Assignment)cAlternatives_6.eContents().get(0);
+		private final RuleCall cStatementSTATEMENTTerminalRuleCall_6_0_0 = (RuleCall)cStatementAssignment_6_0.eContents().get(0);
+		private final Group cGroup_6_1 = (Group)cAlternatives_6.eContents().get(1);
+		private final Keyword cStatementFromFileKeyword_6_1_0 = (Keyword)cGroup_6_1.eContents().get(0);
+		private final Assignment cStatementFromFileAssignment_6_1_1 = (Assignment)cGroup_6_1.eContents().get(1);
+		private final RuleCall cStatementFromFileEBooleanParserRuleCall_6_1_1_0 = (RuleCall)cStatementFromFileAssignment_6_1_1.eContents().get(0);
+		private final Keyword cFilePathKeyword_6_1_2 = (Keyword)cGroup_6_1.eContents().get(2);
+		private final Assignment cFilePathAssignment_6_1_3 = (Assignment)cGroup_6_1.eContents().get(3);
+		private final RuleCall cFilePathEStringParserRuleCall_6_1_3_0 = (RuleCall)cFilePathAssignment_6_1_3.eContents().get(0);
 		
 		//Query:
 		//	{Query}
-		//	'Query' name=EString '(' (parameters+=Parameter ("," parameters+=Parameter)*)? ')'
-		//	statement=MLTEXT;
+		//	'Query' name=EString '(' (parameters+=JvmFormalParameter ("," parameters+=JvmFormalParameter)*)? ')'
+		//	(statement=STATEMENT | 'statementFromFile:' statementFromFile=EBoolean 'filePath:' filePath=EString);
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Query} 'Query' name=EString '(' (parameters+=Parameter ("," parameters+=Parameter)*)? ')' statement=MLTEXT
+		//{Query} 'Query' name=EString '(' (parameters+=JvmFormalParameter ("," parameters+=JvmFormalParameter)*)? ')'
+		//(statement=STATEMENT | 'statementFromFile:' statementFromFile=EBoolean 'filePath:' filePath=EString)
 		public Group getGroup() { return cGroup; }
 		
 		//{Query}
@@ -102,35 +146,59 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		//'('
 		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 		
-		//(parameters+=Parameter ("," parameters+=Parameter)*)?
+		//(parameters+=JvmFormalParameter ("," parameters+=JvmFormalParameter)*)?
 		public Group getGroup_4() { return cGroup_4; }
 		
-		//parameters+=Parameter
+		//parameters+=JvmFormalParameter
 		public Assignment getParametersAssignment_4_0() { return cParametersAssignment_4_0; }
 		
-		//Parameter
-		public RuleCall getParametersParameterParserRuleCall_4_0_0() { return cParametersParameterParserRuleCall_4_0_0; }
+		//JvmFormalParameter
+		public RuleCall getParametersJvmFormalParameterParserRuleCall_4_0_0() { return cParametersJvmFormalParameterParserRuleCall_4_0_0; }
 		
-		//("," parameters+=Parameter)*
+		//("," parameters+=JvmFormalParameter)*
 		public Group getGroup_4_1() { return cGroup_4_1; }
 		
 		//","
 		public Keyword getCommaKeyword_4_1_0() { return cCommaKeyword_4_1_0; }
 		
-		//parameters+=Parameter
+		//parameters+=JvmFormalParameter
 		public Assignment getParametersAssignment_4_1_1() { return cParametersAssignment_4_1_1; }
 		
-		//Parameter
-		public RuleCall getParametersParameterParserRuleCall_4_1_1_0() { return cParametersParameterParserRuleCall_4_1_1_0; }
+		//JvmFormalParameter
+		public RuleCall getParametersJvmFormalParameterParserRuleCall_4_1_1_0() { return cParametersJvmFormalParameterParserRuleCall_4_1_1_0; }
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 		
-		//statement=MLTEXT
-		public Assignment getStatementAssignment_6() { return cStatementAssignment_6; }
+		//(statement=STATEMENT | 'statementFromFile:' statementFromFile=EBoolean 'filePath:' filePath=EString)
+		public Alternatives getAlternatives_6() { return cAlternatives_6; }
 		
-		//MLTEXT
-		public RuleCall getStatementMLTEXTTerminalRuleCall_6_0() { return cStatementMLTEXTTerminalRuleCall_6_0; }
+		//statement=STATEMENT
+		public Assignment getStatementAssignment_6_0() { return cStatementAssignment_6_0; }
+		
+		//STATEMENT
+		public RuleCall getStatementSTATEMENTTerminalRuleCall_6_0_0() { return cStatementSTATEMENTTerminalRuleCall_6_0_0; }
+		
+		//'statementFromFile:' statementFromFile=EBoolean 'filePath:' filePath=EString
+		public Group getGroup_6_1() { return cGroup_6_1; }
+		
+		//'statementFromFile:'
+		public Keyword getStatementFromFileKeyword_6_1_0() { return cStatementFromFileKeyword_6_1_0; }
+		
+		//statementFromFile=EBoolean
+		public Assignment getStatementFromFileAssignment_6_1_1() { return cStatementFromFileAssignment_6_1_1; }
+		
+		//EBoolean
+		public RuleCall getStatementFromFileEBooleanParserRuleCall_6_1_1_0() { return cStatementFromFileEBooleanParserRuleCall_6_1_1_0; }
+		
+		//'filePath:'
+		public Keyword getFilePathKeyword_6_1_2() { return cFilePathKeyword_6_1_2; }
+		
+		//filePath=EString
+		public Assignment getFilePathAssignment_6_1_3() { return cFilePathAssignment_6_1_3; }
+		
+		//EString
+		public RuleCall getFilePathEStringParserRuleCall_6_1_3_0() { return cFilePathEStringParserRuleCall_6_1_3_0; }
 	}
 	public class EStringElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.EString");
@@ -151,44 +219,32 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
 	}
-	public class ParameterElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.Parameter");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cParameterAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cTypeJvmTypeReferenceParserRuleCall_1_0 = (RuleCall)cTypeAssignment_1.eContents().get(0);
-		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cNameEStringParserRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+	public class EBooleanElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.EBoolean");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cTrueKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cFalseKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
 		
-		//Parameter:
-		//	{Parameter} type=JvmTypeReference name=EString;
+		//EBoolean ecore::EBoolean:
+		//	'true' | 'false';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Parameter} type=JvmTypeReference name=EString
-		public Group getGroup() { return cGroup; }
+		//'true' | 'false'
+		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//{Parameter}
-		public Action getParameterAction_0() { return cParameterAction_0; }
+		//'true'
+		public Keyword getTrueKeyword_0() { return cTrueKeyword_0; }
 		
-		//type=JvmTypeReference
-		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
-		
-		//JvmTypeReference
-		public RuleCall getTypeJvmTypeReferenceParserRuleCall_1_0() { return cTypeJvmTypeReferenceParserRuleCall_1_0; }
-		
-		//name=EString
-		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
-		
-		//EString
-		public RuleCall getNameEStringParserRuleCall_2_0() { return cNameEStringParserRuleCall_2_0; }
+		//'false'
+		public Keyword getFalseKeyword_1() { return cFalseKeyword_1; }
 	}
 	
 	
-	private final ApplicationElements pApplication;
+	private final ModelElements pModel;
 	private final QueryElements pQuery;
-	private final TerminalRule tMLTEXT;
+	private final TerminalRule tSTATEMENT;
 	private final EStringElements pEString;
-	private final ParameterElements pParameter;
+	private final EBooleanElements pEBoolean;
 	
 	private final Grammar grammar;
 	
@@ -203,11 +259,11 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaXbase = gaXbase;
 		this.gaXtype = gaXtype;
-		this.pApplication = new ApplicationElements();
+		this.pModel = new ModelElements();
 		this.pQuery = new QueryElements();
-		this.tMLTEXT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.MLTEXT");
+		this.tSTATEMENT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "de.dc.sql.lang.SqlQueryDsl.STATEMENT");
 		this.pEString = new EStringElements();
-		this.pParameter = new ParameterElements();
+		this.pEBoolean = new EBooleanElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -241,20 +297,23 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	
-	//Application:
-	//	{Application} (queries+=Query queries+=Query*)?;
-	public ApplicationElements getApplicationAccess() {
-		return pApplication;
+	//Model:
+	//	{Model}
+	//	'package' package=QualifiedName
+	//	'class' name=ID '{' (queries+=Query queries+=Query*)?
+	//	'}';
+	public ModelElements getModelAccess() {
+		return pModel;
 	}
 	
-	public ParserRule getApplicationRule() {
-		return getApplicationAccess().getRule();
+	public ParserRule getModelRule() {
+		return getModelAccess().getRule();
 	}
 	
 	//Query:
 	//	{Query}
-	//	'Query' name=EString '(' (parameters+=Parameter ("," parameters+=Parameter)*)? ')'
-	//	statement=MLTEXT;
+	//	'Query' name=EString '(' (parameters+=JvmFormalParameter ("," parameters+=JvmFormalParameter)*)? ')'
+	//	(statement=STATEMENT | 'statementFromFile:' statementFromFile=EBoolean 'filePath:' filePath=EString);
 	public QueryElements getQueryAccess() {
 		return pQuery;
 	}
@@ -263,10 +322,10 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		return getQueryAccess().getRule();
 	}
 	
-	//terminal MLTEXT:
-	//	'['->']';
-	public TerminalRule getMLTEXTRule() {
-		return tMLTEXT;
+	//terminal STATEMENT:
+	//	'```'->'```';
+	public TerminalRule getSTATEMENTRule() {
+		return tSTATEMENT;
 	}
 	
 	//EString:
@@ -279,14 +338,14 @@ public class SqlQueryDslGrammarAccess extends AbstractGrammarElementFinder {
 		return getEStringAccess().getRule();
 	}
 	
-	//Parameter:
-	//	{Parameter} type=JvmTypeReference name=EString;
-	public ParameterElements getParameterAccess() {
-		return pParameter;
+	//EBoolean ecore::EBoolean:
+	//	'true' | 'false';
+	public EBooleanElements getEBooleanAccess() {
+		return pEBoolean;
 	}
 	
-	public ParserRule getParameterRule() {
-		return getParameterAccess().getRule();
+	public ParserRule getEBooleanRule() {
+		return getEBooleanAccess().getRule();
 	}
 	
 	//XExpression:

@@ -13,7 +13,7 @@ public abstract class AbstractSqlQueryDslValidator extends XbaseValidator {
 	@Override
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>(super.getEPackages());
-		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.frateranatis.org/sql/query"));
+		result.add(de.dc.sql.lang.sqlQueryDsl.SqlQueryDslPackage.eINSTANCE);
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/xbase/Xbase"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/common/JavaVMTypes"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/xbase/Xtype"));

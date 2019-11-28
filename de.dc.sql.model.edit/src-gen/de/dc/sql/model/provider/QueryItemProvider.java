@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.xtext.xbase.XbaseFactory;
 
 /**
  * This is the item provider adapter for a {@link de.dc.sql.model.Query} object.
@@ -59,7 +60,6 @@ public class QueryItemProvider extends ItemProviderAdapter
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
-			addStatementPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,22 +80,6 @@ public class QueryItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This adds a property descriptor for the Statement feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addStatementPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_Query_statement_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_Query_statement_feature",
-								"_UI_Query_type"),
-						SqlQueryPackage.Literals.QUERY__STATEMENT, true, false, false,
-						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
-	}
-
-	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -107,6 +91,7 @@ public class QueryItemProvider extends ItemProviderAdapter
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(SqlQueryPackage.Literals.QUERY__STATEMENT);
 			childrenFeatures.add(SqlQueryPackage.Literals.QUERY__PARAMETERS);
 		}
 		return childrenFeatures;
@@ -202,9 +187,9 @@ public class QueryItemProvider extends ItemProviderAdapter
 
 		switch (notification.getFeatureID(Query.class)) {
 		case SqlQueryPackage.QUERY__NAME:
-		case SqlQueryPackage.QUERY__STATEMENT:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
+		case SqlQueryPackage.QUERY__STATEMENT:
 		case SqlQueryPackage.QUERY__PARAMETERS:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 			return;
@@ -222,6 +207,9 @@ public class QueryItemProvider extends ItemProviderAdapter
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add(createChildParameter(SqlQueryPackage.Literals.QUERY__STATEMENT,
+				XbaseFactory.eINSTANCE.createXBlockExpression()));
 
 		newChildDescriptors.add(createChildParameter(SqlQueryPackage.Literals.QUERY__PARAMETERS,
 				SqlQueryFactory.eINSTANCE.createParameter()));

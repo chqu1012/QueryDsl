@@ -5,8 +5,8 @@ package de.dc.sql.lang.formatting2
 
 import com.google.inject.Inject
 import de.dc.sql.lang.services.SqlQueryDslGrammarAccess
-import de.dc.sql.model.Application
-import de.dc.sql.model.Query
+import de.dc.sql.lang.sqlQueryDsl.Model
+import de.dc.sql.lang.sqlQueryDsl.Query
 import org.eclipse.xtext.formatting2.IFormattableDocument
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
@@ -14,7 +14,7 @@ class SqlQueryDslFormatter extends XbaseFormatter {
 	
 	@Inject extension SqlQueryDslGrammarAccess
 
-	def dispatch void format(Application application, extension IFormattableDocument document) {
+	def dispatch void format(Model application, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		for (query : application.queries) {
 			query.format

@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.xtext.xbase.XBlockExpression;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Query</b></em>'.
@@ -59,24 +61,14 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getStatement() <em>Statement</em>}' attribute.
+	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getStatement()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String STATEMENT_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getStatement() <em>Statement</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStatement()
-	 * @generated
-	 * @ordered
-	 */
-	protected String statement = STATEMENT_EDEFAULT;
+	protected XBlockExpression statement;
 
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
@@ -136,7 +128,7 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 	 * @generated
 	 */
 	@Override
-	public String getStatement() {
+	public XBlockExpression getStatement() {
 		return statement;
 	}
 
@@ -145,13 +137,41 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void setStatement(String newStatement) {
-		String oldStatement = statement;
+	public NotificationChain basicSetStatement(XBlockExpression newStatement, NotificationChain msgs) {
+		XBlockExpression oldStatement = statement;
 		statement = newStatement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SqlQueryPackage.QUERY__STATEMENT, oldStatement,
-					statement));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+					SqlQueryPackage.QUERY__STATEMENT, oldStatement, newStatement);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setStatement(XBlockExpression newStatement) {
+		if (newStatement != statement) {
+			NotificationChain msgs = null;
+			if (statement != null)
+				msgs = ((InternalEObject) statement).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - SqlQueryPackage.QUERY__STATEMENT, null, msgs);
+			if (newStatement != null)
+				msgs = ((InternalEObject) newStatement).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - SqlQueryPackage.QUERY__STATEMENT, null, msgs);
+			msgs = basicSetStatement(newStatement, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SqlQueryPackage.QUERY__STATEMENT, newStatement,
+					newStatement));
 	}
 
 	/**
@@ -176,6 +196,8 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+		case SqlQueryPackage.QUERY__STATEMENT:
+			return basicSetStatement(null, msgs);
 		case SqlQueryPackage.QUERY__PARAMETERS:
 			return ((InternalEList<?>) getParameters()).basicRemove(otherEnd, msgs);
 		}
@@ -213,7 +235,7 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 			setName((String) newValue);
 			return;
 		case SqlQueryPackage.QUERY__STATEMENT:
-			setStatement((String) newValue);
+			setStatement((XBlockExpression) newValue);
 			return;
 		case SqlQueryPackage.QUERY__PARAMETERS:
 			getParameters().clear();
@@ -235,7 +257,7 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 			setName(NAME_EDEFAULT);
 			return;
 		case SqlQueryPackage.QUERY__STATEMENT:
-			setStatement(STATEMENT_EDEFAULT);
+			setStatement((XBlockExpression) null);
 			return;
 		case SqlQueryPackage.QUERY__PARAMETERS:
 			getParameters().clear();
@@ -255,7 +277,7 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 		case SqlQueryPackage.QUERY__NAME:
 			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		case SqlQueryPackage.QUERY__STATEMENT:
-			return STATEMENT_EDEFAULT == null ? statement != null : !STATEMENT_EDEFAULT.equals(statement);
+			return statement != null;
 		case SqlQueryPackage.QUERY__PARAMETERS:
 			return parameters != null && !parameters.isEmpty();
 		}
@@ -275,8 +297,6 @@ public class QueryImpl extends MinimalEObjectImpl.Container implements Query {
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
-		result.append(", statement: ");
-		result.append(statement);
 		result.append(')');
 		return result.toString();
 	}
