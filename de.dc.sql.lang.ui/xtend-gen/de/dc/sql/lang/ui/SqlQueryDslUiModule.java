@@ -4,8 +4,10 @@
 package de.dc.sql.lang.ui;
 
 import de.dc.sql.lang.ui.AbstractSqlQueryDslUiModule;
+import de.dc.sql.lang.ui.template.MyTemplateProposalProvieder;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
+import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
@@ -13,6 +15,11 @@ import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 @FinalFieldsConstructor
 @SuppressWarnings("all")
 public class SqlQueryDslUiModule extends AbstractSqlQueryDslUiModule {
+  @Override
+  public Class<? extends ITemplateProposalProvider> bindITemplateProposalProvider() {
+    return MyTemplateProposalProvieder.class;
+  }
+  
   public SqlQueryDslUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
   }
