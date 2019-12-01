@@ -58,3 +58,4 @@ public class QueryTest {
 	}
 }
 ```
+For a full demo application see de.dc.sql.lang.demo
