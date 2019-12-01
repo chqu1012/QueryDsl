@@ -4,13 +4,14 @@
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="de.dc.sql.lang.ui.SqlQueryDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
-			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-			default="true"
-			extensions="sqlang"
-			id="de.dc.sql.lang.SqlQueryDsl"
-			matchingStrategy="de.dc.sql.lang.ui.SqlQueryDslExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.editor.JavaEditorInputMatcher"
-			name="SqlQueryDsl Editor">
+        class="de.dc.sql.lang.ui.SqlQueryDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+        contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+        default="true"
+        extensions="sqlang"
+        icon="icons/icons8-sql-30.png"
+        id="de.dc.sql.lang.SqlQueryDsl"
+        matchingStrategy="de.dc.sql.lang.ui.SqlQueryDslExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.editor.JavaEditorInputMatcher"
+        name="SqlQueryDsl Editor">
 		</editor>
 	</extension>
 	<extension
