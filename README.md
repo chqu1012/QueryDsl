@@ -8,6 +8,7 @@ Example query dsl for person table.
 * The content after is the sql content with parameters surround by '<' parameterName '>'
 * Java class method can called in the query content, see below example #findAllBy(Person)
 * After storing this dsl a corresponding java class will inferred by xtext
+* Using autocompletion on dsl ![Autocomplete](https://github.com/chqu1012/QueryDsl/blob/master/de.dc.sql.lang.build/images/AutoCompletion.png)
 * The name of the query manager can defined as ClassName
 ```
 package de.dc
