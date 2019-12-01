@@ -37,17 +37,20 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class QueryTest {
-	
+
+	@Test
+	public void testFindAllPerson() {
+		Person person = new Person();
+		person.setForename("Peter");
+		person.setName("Parker");
+		String sql = QueryManager.findAllBy(person);
+		assertEquals("SELECT * FROM table WHERE name=Parker and forename = Peter", sql);
+	}
+
 	@Test
 	public void testFindAllById() {
 		String sql = QueryManager.findAllById(12);
 		assertEquals(" Select * from Table where id = 12  ", sql);
-		
-		Person person = new Person();
-		person.setForename("Peter");
-		person.setName("Parker");
-		sql = QueryManager.findAllBy(person);
-		assertEquals("SELECT * FROM table WHERE name=Parker and forename = Peter", sql);
 	}
 }
 ```
