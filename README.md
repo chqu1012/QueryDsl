@@ -24,7 +24,7 @@ class QueryManager{
 
 	Query findAllBy(Person p)```
 		SELECT * FROM table
-		WHERE name="+p.getName()+" and forename = "+p.getForename()+"
+		WHERE name='"+p.getName()+"' and forename = '"+p.getForename()+"'
 		```	
 } 
 ```
@@ -43,14 +43,16 @@ public class QueryTest {
 		Person person = new Person();
 		person.setForename("Peter");
 		person.setName("Parker");
+
 		String sql = QueryManager.findAllBy(person);
-		assertEquals("SELECT * FROM table WHERE name=Parker and forename = Peter", sql);
+		
+		assertEquals("SELECT * FROM table WHERE name='Parker' and forename = 'Peter'", sql);
 	}
 
 	@Test
 	public void testFindAllById() {
 		String sql = QueryManager.findAllById(12);
-		assertEquals(" Select * from Table where id = 12  ", sql);
+		assertEquals("Select * from Table where id = 12", sql);
 	}
 }
 ```
