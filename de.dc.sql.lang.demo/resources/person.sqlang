@@ -1,0 +1,19 @@
+package de.dc.sql.lang.demo
+	
+class PersonQuery{
+		
+	Query findAllByName(String name)```
+	SELECT * FROM person
+	WHERE name='<name>'
+	```
+	
+	Query findAllByForename(String forename)```
+	SELECT * FROM person
+	WHERE forename='<forename>'
+	```
+	
+	Query findAllById(String id)```
+	SELECT * FROM person
+	WHERE id='<id>'
+	```
+}
