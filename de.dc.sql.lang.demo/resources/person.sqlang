@@ -16,4 +16,10 @@ class PersonQuery{
 	SELECT * FROM person
 	WHERE id='<id>'
 	```
+	
+	Query findAllByPerson(de.dc.sql.lang.demo.model.Person p)```
+	SELECT * FROM person
+	WHERE name='"+p.getName()+"'
+	and forename='"+p.getForename()+"'
+	```
 }

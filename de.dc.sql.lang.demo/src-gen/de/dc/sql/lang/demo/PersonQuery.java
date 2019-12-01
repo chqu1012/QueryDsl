@@ -1,5 +1,7 @@
 package de.dc.sql.lang.demo;
 
+import de.dc.sql.lang.demo.model.Person;
+
 @SuppressWarnings("all")
 public class PersonQuery {
   public static String findAllByName(final String name) {
@@ -32,6 +34,18 @@ public class PersonQuery {
     sb.append(" ");
     String content = sb.toString();
     content = content.replaceAll("<id>", String.valueOf(id));
+    return content.trim();
+  }
+  
+  public static String findAllByPerson(final Person p) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(" ");
+    sb.append("SELECT * FROM person ");
+    sb.append("WHERE name='"+p.getName()+"' ");
+    sb.append("and forename='"+p.getForename()+"' ");
+    sb.append(" ");
+    String content = sb.toString();
+    content = content.replaceAll("<p>", String.valueOf(p));
     return content.trim();
   }
 }
