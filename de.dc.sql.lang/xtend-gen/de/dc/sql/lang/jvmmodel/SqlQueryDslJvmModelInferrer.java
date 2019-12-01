@@ -75,7 +75,7 @@ public class SqlQueryDslJvmModelInferrer extends AbstractModelInferrer {
                   _builder.newLineIfNotEmpty();
                 }
               }
-              _builder.append("return content;");
+              _builder.append("return content.trim();");
               _builder.newLine();
             }
           };

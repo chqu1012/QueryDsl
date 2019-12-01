@@ -35,7 +35,7 @@ class SqlQueryDslJvmModelInferrer extends AbstractModelInferrer {
 					«FOR p : query.parameters»
 					content = content.replaceAll("<«p.name»>", String.valueOf(«p.name»));
 					«ENDFOR»
-					return content;
+					return content.trim();
 				'''
 				members += jvmOperation
 			}
