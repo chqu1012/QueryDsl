@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.dc.sql.lang.feature_1.0.0.201912011145.jar" id="de.dc.sql.lang.feature" version="1.0.0.201912011145">
+      <category name="de.dc.sql.lang.update"/>
+   </feature>
+   <category-def name="de.dc.sql.lang.update" label="SQL Query Generator"/>
+</site>
